@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vadram Temp Mail</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 0 auto; padding: 20px; }
+        #email { font-weight: bold; color: #0066cc; }
+        button { padding: 10px 15px; background: #0066cc; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Vadram Temp Mail</h1>
+    <div id="email">loading...</div>
+    <button onclick="generateEmail()">Generate New Email</button>
+    <button onclick="copyEmail()">Copy Email</button>
+
+    <script>
+        function generateEmail() {
+            const random = Math.random().toString(36).substring(2, 8);
+            const email = `${random}@vadram.store`;
+            document.getElementById("email").textContent = email;
+        }
+
+        function copyEmail() {
+            const email = document.getElementById("email").textContent;
+            navigator.clipboard.writeText(email);
+            alert("Copied: " + email);
+        }
+    </script>
+</body>
+</html>

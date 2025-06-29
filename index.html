@@ -211,48 +211,48 @@
     <header>
         <div class="container">
             <h1 class="logo">Vadram Temp Mail</h1>
-            <p class="tagline">Temporary Email Service @vadram.store</p>
+            <p class="tagline">Layanan Email Sementara @vadram.store</p>
         </div>
     </header>
 
     <main class="container">
         <div class="card">
-            <h2>Your Temporary Email</h2>
-            <div class="email-display" id="temp-email">generating...</div>
+            <h2>Email Sementara Anda</h2>
+            <div class="email-display" id="temp-email">membuat...</div>
             <div style="text-align: center;">
-                <button class="btn" id="generate-btn">Generate New Email</button>
-                <button class="btn btn-copy" id="copy-btn">Copy Email</button>
+                <button class="btn" id="generate-btn">Buat Email Baru</button>
+                <button class="btn btn-copy" id="copy-btn">Salin Email</button>
             </div>
 
             <div class="verification-banner" id="verification-banner">
-                <h3>📨 Verification Code Received</h3>
-                <p>Your verification code is:</p>
+                <h3>📨 Kode Verifikasi Diterima</h3>
+                <p>Kode verifikasi Anda:</p>
                 <div class="verification-code" id="verification-code"></div>
-                <p>This code was sent to your temporary email address.</p>
+                <p>Kode ini dikirim ke alamat email sementara Anda.</p>
             </div>
         </div>
 
         <div class="card inbox">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                <h2>Inbox</h2>
+                <h2>Kotak Masuk</h2>
                 <div>
                     <span class="status-indicator status-active" id="status-indicator"></span>
                     <span class="refresh-status">
-                        Last refreshed: <span id="last-refresh">never</span>
+                        Pembaruan terakhir: <span id="last-refresh">belum pernah</span>
                         <span id="loading-indicator" style="display: none;"> <span class="loading"></span></span>
                     </span>
                 </div>
             </div>
-            <button class="btn btn-refresh" id="refresh-btn">Refresh Inbox</button>
+            <button class="btn btn-refresh" id="refresh-btn">Segarkan Kotak Masuk</button>
             
             <ul class="email-list" id="email-list">
                 <li class="email-item unread">
                     <div class="email-content">
                         <div class="email-sender">system@vadram.store</div>
-                        <div class="email-subject">Welcome to Vadram Temp Mail</div>
-                        <div class="email-body">Your temporary inbox is ready. Share your email address to receive messages and verification codes.</div>
+                        <div class="email-subject">Selamat Datang di Vadram Temp Mail</div>
+                        <div class="email-body">Kotak masuk sementara Anda sudah siap. Bagikan alamat email Anda untuk menerima pesan dan kode verifikasi.</div>
                     </div>
-                    <div class="email-time">Just now</div>
+                    <div class="email-time">Baru saja</div>
                 </li>
             </ul>
         </div>
@@ -260,8 +260,8 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2023 Vadram Temp Mail Service</p>
-            <p>All emails are automatically deleted after 24 hours.</p>
+            <p>&copy; 2023 Layanan Email Sementara Vadram</p>
+            <p>Semua email akan otomatis terhapus setelah 24 jam.</p>
         </div>
     </footer>
 
@@ -270,11 +270,18 @@
         // KONFIGURASI CLOUDFLARE
         // ======================
         const CLOUDFLARE_CONFIG = {
-            API_TOKEN: 'kKsvP1tL4UQxbZQ8ra-ANSn4uLwOKA-g0mSgXXgx',  // Ganti dengan API Token Anda
-            ACCOUNT_ID: '15c9d9015d79e61f4f49637b366b361d',  // Dari gambar Anda
-            ZONE_ID: 'fballbal2b95eaf5de332196abe3b07e',     // Dari gambar Anda
+            API_TOKEN: 'kKsvP1tL4UQxbZQ8ra-ANSn4uLwOKA-g0mSgXXgx',
+            ACCOUNT_ID: '15c9d9015d79e61f4f49637b366b361d',
+            ZONE_ID: 'fballbal2b95eaf5de332196abe3b07e',
             EMAIL_DOMAIN: 'vadram.store'
         };
+
+        // Daftar nama khas Indonesia
+        const NAMA_DEPAN = ['Ahmad', 'Budi', 'Citra', 'Dewi', 'Eko', 'Fajar', 'Gita', 'Hadi', 'Indra', 'Joko', 
+                           'Kartika', 'Lina', 'Mega', 'Nur', 'Oki', 'Putri', 'Rina', 'Sari', 'Tono', 'Wati'];
+
+        const NAMA_BELAKANG = ['Santoso', 'Wijaya', 'Kusuma', 'Hidayat', 'Purnama', 'Nugroho', 'Siregar', 
+                              'Halim', 'Prabowo', 'Susanto', 'Lestari', 'Utami', 'Rahayu', 'Suryadi', 'Setiawan'];
 
         // ======================
         // STATE APLIKASI
@@ -314,10 +321,16 @@
             });
         }
 
-        // Generate email baru
+        // Generate email baru dengan nama Indonesia
         function generateNewEmail() {
-            const randomString = Math.random().toString(36).substring(2, 12);
-            currentEmail = `${randomString}@${CLOUDFLARE_CONFIG.EMAIL_DOMAIN}`;
+            // Pilih nama depan dan belakang secara acak
+            const namaDepan = NAMA_DEPAN[Math.floor(Math.random() * NAMA_DEPAN.length)];
+            const namaBelakang = NAMA_BELAKANG[Math.floor(Math.random() * NAMA_BELAKANG.length)];
+            
+            // Gabungkan dengan angka acak dan format email
+            const randomNum = Math.floor(Math.random() * 100);
+            currentEmail = `${namaDepan.toLowerCase()}.${namaBelakang.toLowerCase()}${randomNum}@${CLOUDFLARE_CONFIG.EMAIL_DOMAIN}`;
+            
             emailDisplay.textContent = currentEmail;
             hideVerification();
             showStatus('active');
@@ -327,10 +340,10 @@
                 <li class="email-item unread">
                     <div class="email-content">
                         <div class="email-sender">system@${CLOUDFLARE_CONFIG.EMAIL_DOMAIN}</div>
-                        <div class="email-subject">New Email Address Generated</div>
-                        <div class="email-body">Your new temporary email is ready. Share this address to receive messages.</div>
+                        <div class="email-subject">Alamat Email Baru Telah Dibuat</div>
+                        <div class="email-body">Alamat email sementara Anda sudah siap. Bagikan alamat ini untuk menerima pesan.</div>
                     </div>
-                    <div class="email-time">Just now</div>
+                    <div class="email-time">Baru saja</div>
                 </li>
             `;
             
@@ -343,13 +356,13 @@
             navigator.clipboard.writeText(currentEmail)
                 .then(() => {
                     const originalText = document.getElementById('copy-btn').textContent;
-                    document.getElementById('copy-btn').textContent = 'Copied!';
+                    document.getElementById('copy-btn').textContent = 'Tersalin!';
                     setTimeout(() => {
                         document.getElementById('copy-btn').textContent = originalText;
                     }, 2000);
                 })
                 .catch(err => {
-                    console.error('Failed to copy:', err);
+                    console.error('Gagal menyalin:', err);
                 });
         }
 
@@ -432,7 +445,8 @@
             const verificationEmail = emails.find(email => 
                 email.subject.toLowerCase().includes('verification') || 
                 email.subject.toLowerCase().includes('verify') ||
-                email.subject.toLowerCase().includes('code')
+                email.subject.toLowerCase().includes('code') ||
+                email.subject.toLowerCase().includes('kode')
             );
             
             if (verificationEmail) {
@@ -490,9 +504,9 @@
             const emailTime = new Date(timestamp);
             const diffMinutes = Math.floor((now - emailTime) / (1000 * 60));
             
-            if (diffMinutes < 1) return 'Just now';
-            if (diffMinutes < 60) return `${diffMinutes} min ago`;
-            if (diffMinutes < 1440) return `${Math.floor(diffMinutes / 60)} hours ago`;
+            if (diffMinutes < 1) return 'Baru saja';
+            if (diffMinutes < 60) return `${diffMinutes} menit lalu`;
+            if (diffMinutes < 1440) return `${Math.floor(diffMinutes / 60)} jam lalu`;
             return emailTime.toLocaleDateString();
         }
 
@@ -502,10 +516,10 @@
                 <li class="email-item">
                     <div class="email-content">
                         <div class="email-sender">system@${CLOUDFLARE_CONFIG.EMAIL_DOMAIN}</div>
-                        <div class="email-subject">No Messages Yet</div>
-                        <div class="email-body">Your inbox is empty. Share your email address to receive messages.</div>
+                        <div class="email-subject">Belum Ada Pesan</div>
+                        <div class="email-body">Kotak masuk Anda masih kosong. Bagikan alamat email Anda untuk menerima pesan.</div>
                     </div>
-                    <div class="email-time">Just now</div>
+                    <div class="email-time">Baru saja</div>
                 </li>
             `;
         }
